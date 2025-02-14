@@ -1,0 +1,14 @@
+Q1:Rank Scores
+--Using window functions
+select score, 
+	dense_rank() over (order by score desc) as 'rnk' 
+from scores 
+order by rnk;
+
+--Without using window functions
+select t.score, 
+		(select count(distinct s.score) 
+		from scores s 
+		where s.score>=t.score) as 'rnk'
+from scores t 
+order by rnk;
